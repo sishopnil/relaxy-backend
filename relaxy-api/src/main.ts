@@ -20,7 +20,7 @@ async function bootstrap() {
       persistAuthorization: true,
     },
   });
-  await app.listen(10001);
+  await app.listen(2001);
   console.log('Server is running on http://localhost/api/doc');
 }
 bootstrap();
