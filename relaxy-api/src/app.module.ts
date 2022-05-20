@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigureEnum } from './common/enums/configure.enum';
+import { UserEntity } from './common/entities/user.entity';
 
 const ENV = process.env['NODE_ENV'];
 const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
@@ -18,11 +19,12 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
       type: 'mysql',
       host: 'localhost',
       port: 3306,
-      username: 'relaxy',
+      username: 'root',
       password: 'relaxy',
       database: 'relaxy',
       entities: [__dirname + '/**/common/entities/*.entity{.ts,.js}'],
-      synchronize: true,
+      // entities: [UserEntity],
+      synchronize: false,
       logging: true,
       logger: 'file',
     }),
@@ -30,4 +32,8 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log(__dirname);
+  }
+}
