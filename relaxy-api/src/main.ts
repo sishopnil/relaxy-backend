@@ -21,6 +21,6 @@ async function bootstrap() {
     },
   });
   await app.listen(2001);
-  console.log('Server is running on http://localhost/api/doc');
+  console.log('Server is running on http://localhost:2001/api/doc/#/');
 }
 bootstrap();
