@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { SystemExceptionFilter } from './common/filters/system-exception.filter';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { UserModule } from './user/user.module';
 
 const ENV = process.env['NODE_ENV'];
@@ -24,17 +26,30 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
         password: 'password',
         database: 'relaxy',
         entities: [__dirname + '/**/common/entities/*.entity{.ts,.js}'],
-        // entities: [UserEntity],
-        synchronize: false,
+        synchronize: true,
         logging: true,
         logger: 'file',
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
     UserModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  // controllers: [AppController],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: SystemExceptionFilter,
+    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: FieldExceptionFilter,
+    // },
+  ],
 })
 export class AppModule {
   constructor() {

@@ -16,19 +16,26 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { UserDto } from 'src/common/dtos/user/user.dto';
-import { AuthWithRoles } from '../../common/decorators/auth-guard.decorator';
+import {
+  AuthWithRoles,
+  AuthUser,
+} from 'src/common/decorators/auth-guard.decorator';
+import { UserResponseDto } from 'src/common/dtos/reponse/user-response.dto';
+import { UserDto, UserSearchDto } from 'src/common/dtos/user/user.dto';
+import {
+  SUPERADMIN_ADMIN,
+  SUPERADMIN_ADMIN_EDITOR,
+} from 'src/common/enums/role-name.enum';
 import { PaginationDecorator } from '../../common/decorators/pagination.decorator';
 import { PaginationDTO } from '../../common/dtos/pagination/pagination.dto';
 import { ResponseDto } from '../../common/dtos/reponse/response.dto';
-import { SUPERADMIN_ADMIN_EDITOR } from '../../common/enums/role-name.enum';
 import { DtoValidationPipe } from '../../common/pipes/dto-validation.pipe';
 import { UuidValidationPipe } from '../../common/pipes/uuid-validation.pipe';
 import { RequestService } from '../../common/services/request.service';
 import { ResponseService } from '../../common/services/response.service';
 import { UserService } from '../services/user.service';
 
-@ApiTags('Users')
+@ApiTags('users')
 @Controller('user')
 export class UserController {
   constructor(
@@ -43,44 +50,46 @@ export class UserController {
   })
   @HttpCode(HttpStatus.OK)
   @Get()
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   findAll(): Promise<ResponseDto> {
-    const tvcs = this.userService.findAll();
-    return this.responseService.toDtosResponse(HttpStatus.OK, null, tvcs);
+    const users = this.userService.findAll();
+    return this.responseService.toDtosResponse(HttpStatus.OK, null, users);
   }
 
-  // @ApiOkResponse({
-  //   status: HttpStatus.OK,
-  //   description: 'Article Category list in pagination',
-  // })
-  // @HttpCode(HttpStatus.OK)
-  // @Get('pagination')
-  // pagination(
-  //   @PaginationDecorator() pagination: PaginationDTO,
-  //   @Query() articleCategorySearchDto: ArticleCategorySearchDto,
-  // ): Promise<ResponseDto> {
-  //   const tvcs = this.userService.pagination(
-  //     pagination.page,
-  //     pagination.limit,
-  //     pagination.sort as 'DESC' | 'ASC',
-  //     pagination.order,
-  //     articleCategorySearchDto,
-  //   );
-  //   return this.responseService.toPaginationResponse(
-  //     HttpStatus.OK,
-  //     'Article Category list in pagination',
-  //     pagination.page,
-  //     pagination.limit,
-  //     tvcs,
-  //   );
-  // }
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: 'Users list in pagination',
+  })
+  @HttpCode(HttpStatus.OK)
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
+  @Get('pagination')
+  pagination(
+    @PaginationDecorator() pagination: PaginationDTO,
+    @Query() userSearchDto: UserSearchDto,
+  ): Promise<ResponseDto> {
+    const users = this.userService.pagination(
+      pagination.page,
+      pagination.limit,
+      pagination.sort as 'DESC' | 'ASC',
+      pagination.order,
+      userSearchDto,
+    );
+    return this.responseService.toPaginationResponse(
+      HttpStatus.OK,
+      'User list in pagination',
+      pagination.page,
+      pagination.limit,
+      users,
+    );
+  }
 
   // @UseGuards(new EditorGuard())
   @ApiCreatedResponse({
-    description: 'A new Article Category is created',
+    description: 'A new user is created',
   })
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   @ApiBody({ type: UserDto })
   @HttpCode(HttpStatus.CREATED)
-  // @AuthWithRoles([...SUPERADMIN_ADMIN_EDITOR])
   @Post()
   create(
     @Body(
@@ -89,25 +98,65 @@ export class UserController {
         forbidNonWhitelisted: true,
       }),
     )
-    ArticleCategoryDto: UserDto,
+    userDto: UserDto,
   ): Promise<ResponseDto> {
-    const modifiedDto = this.requestService.forCreate(ArticleCategoryDto);
-    const tvc = this.userService.create(modifiedDto);
+    const modifiedDto = this.requestService.forCreate(userDto);
+    const user = this.userService.create(modifiedDto);
     return this.responseService.toDtoResponse(
       HttpStatus.CREATED,
-      'A new Article Category is created',
-      tvc,
+      'A new user is created',
+      user,
     );
   }
 
   // @UseGuards(new EditorGuard())
   @ApiOkResponse({
-    description: 'Article Category has been updated',
+    description: 'User has been updated',
+  })
+  @AuthWithRoles([...SUPERADMIN_ADMIN_EDITOR])
+  @HttpCode(HttpStatus.OK)
+  @Get('me')
+  me(@AuthUser() authUser: UserResponseDto): Promise<ResponseDto> {
+    const me = this.userService.findById(authUser.id);
+    return this.responseService.toDtoResponse(HttpStatus.OK, null, me);
+  }
+
+  @ApiOkResponse({
+    description: 'User has been updated',
   })
   @ApiBody({ type: UserDto })
   @HttpCode(HttpStatus.OK)
-  // @AuthWithRoles([...SUPERADMIN_ADMIN_EDITOR])
+  @AuthWithRoles([...SUPERADMIN_ADMIN_EDITOR])
+  @Put('me')
+  profileUpdate(
+    @Body(
+      new DtoValidationPipe({
+        skipMissingProperties: true,
+        whitelist: true,
+        forbidNonWhitelisted: true,
+      }),
+    )
+    userDto: UserDto,
+    @AuthUser() authUser: UserResponseDto,
+  ): Promise<ResponseDto> {
+    const modifiedDto = this.requestService.forUpdate(userDto);
+    if (!!userDto.roleName) delete userDto.roleName;
+    const user = this.userService.update(authUser.id, modifiedDto);
+    return this.responseService.toDtoResponse(
+      HttpStatus.OK,
+      'Own Profile has been updated',
+      user,
+    );
+  }
+
+  // @UseGuards(new EditorGuard())
+  @ApiOkResponse({
+    description: 'User has been updated',
+  })
+  @ApiBody({ type: UserDto })
+  @HttpCode(HttpStatus.OK)
   @Put(':id')
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   update(
     @Param('id', new UuidValidationPipe()) id: string,
     @Body(
@@ -117,24 +166,24 @@ export class UserController {
         forbidNonWhitelisted: true,
       }),
     )
-    ArticleCategoryDto: UserDto,
+    userDto: UserDto,
   ): Promise<ResponseDto> {
-    const modifiedDto = this.requestService.forUpdate(ArticleCategoryDto);
-    const tvc = this.userService.update(id, modifiedDto);
+    const modifiedDto = this.requestService.forUpdate(userDto);
+    const user = this.userService.update(id, modifiedDto);
     return this.responseService.toDtoResponse(
       HttpStatus.OK,
-      'Article Category has been updated',
-      tvc,
+      'User has been updated',
+      user,
     );
   }
 
   // @UseGuards(new EditorGuard())
   @ApiOkResponse({
     status: HttpStatus.OK,
-    description: 'Article Category successfully deleted!',
+    description: 'User successfully deleted!',
   })
   @HttpCode(HttpStatus.OK)
-  // @AuthWithRoles([...SUPERADMIN_ADMIN_EDITOR])
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   @Delete(':id')
   remove(
     @Param('id', new UuidValidationPipe()) id: string,
@@ -142,7 +191,7 @@ export class UserController {
     const deleted = this.userService.remove(id);
     return this.responseService.toResponse(
       HttpStatus.OK,
-      'Article Category successfully deleted!',
+      'User successfully deleted!',
       deleted,
     );
   }
@@ -152,11 +201,12 @@ export class UserController {
     description: '',
   })
   @HttpCode(HttpStatus.OK)
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   @Get(':id')
   findById(
     @Param('id', new UuidValidationPipe()) id: string,
   ): Promise<ResponseDto> {
-    const tvc = this.userService.findById(id);
-    return this.responseService.toDtoResponse(HttpStatus.OK, null, tvc);
+    const user = this.userService.findById(id);
+    return this.responseService.toDtoResponse(HttpStatus.OK, null, user);
   }
 }

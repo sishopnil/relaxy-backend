@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from 'src/common/entities/user.entity';
+import { BcryptService } from 'src/common/services/bcrypt.service';
 import { ConversionService } from '../common/services/conversion.service';
 import { ExceptionService } from '../common/services/exception.service';
 import { RequestService } from '../common/services/request.service';
@@ -13,6 +14,7 @@ import { UserService } from './services/user.service';
   controllers: [UserController],
   providers: [
     ConversionService,
+    BcryptService,
     ResponseService,
     ExceptionService,
     RequestService,
