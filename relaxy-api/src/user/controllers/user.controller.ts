@@ -22,10 +22,7 @@ import {
 } from 'src/common/decorators/auth-guard.decorator';
 import { UserResponseDto } from 'src/common/dtos/reponse/user-response.dto';
 import { UserDto, UserSearchDto } from 'src/common/dtos/user/user.dto';
-import {
-  SUPERADMIN_ADMIN,
-  SUPERADMIN_ADMIN_EDITOR,
-} from 'src/common/enums/role-name.enum';
+import { SUPERADMIN_ADMIN } from 'src/common/enums/role-name.enum';
 import { PaginationDecorator } from '../../common/decorators/pagination.decorator';
 import { PaginationDTO } from '../../common/dtos/pagination/pagination.dto';
 import { ResponseDto } from '../../common/dtos/reponse/response.dto';
@@ -113,7 +110,7 @@ export class UserController {
   @ApiOkResponse({
     description: 'User has been updated',
   })
-  @AuthWithRoles([...SUPERADMIN_ADMIN_EDITOR])
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   @HttpCode(HttpStatus.OK)
   @Get('me')
   me(@AuthUser() authUser: UserResponseDto): Promise<ResponseDto> {
@@ -126,7 +123,7 @@ export class UserController {
   })
   @ApiBody({ type: UserDto })
   @HttpCode(HttpStatus.OK)
-  @AuthWithRoles([...SUPERADMIN_ADMIN_EDITOR])
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   @Put('me')
   profileUpdate(
     @Body(

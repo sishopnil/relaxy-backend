@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { SystemExceptionFilter } from './common/filters/system-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { MoodModule } from './mood/mood.module';
 import { UserModule } from './user/user.module';
 
 const ENV = process.env['NODE_ENV'];
@@ -34,6 +35,7 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     }),
     AuthModule,
     UserModule,
+    MoodModule,
   ],
   // controllers: [AppController],
   providers: [
