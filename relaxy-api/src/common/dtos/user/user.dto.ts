@@ -1,6 +1,6 @@
 import { RoleNameEnum } from './../../enums/role-name.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
+import { Exclude, Type } from 'class-transformer';
 import {
   IsEmail,
   IsEnum,
@@ -11,6 +11,7 @@ import {
 } from 'class-validator';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
+import { StoryDto } from '../story/story.dto';
 
 export class UserDto extends BaseDto {
   @ApiProperty({ default: 'Shovon' })
@@ -37,6 +38,9 @@ export class UserDto extends BaseDto {
   @IsString({ message: 'Must be a string!' })
   @IsEnum(RoleNameEnum)
   roleName: RoleNameEnum;
+
+  @Type(() => StoryDto)
+  stories: StoryDto[];
 }
 
 export class UserSearchDto extends ApiQueryPaginationBaseDTO {

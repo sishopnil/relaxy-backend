@@ -1,9 +1,8 @@
-import { Exclude } from 'class-transformer';
-import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { ActiveStatus } from '../enums/active.enum';
-import { RoleNameEnum } from '../enums/role-name.enum';
 import { CustomBaseEntity } from './custom-base.entity';
 import { MoodEntity } from './mood.entity';
+import { StoryEntity } from './story.entity';
 
 @Entity({ name: 'FeelingEntity' })
 export class FeelingEntity extends CustomBaseEntity {
@@ -24,4 +23,7 @@ export class FeelingEntity extends CustomBaseEntity {
   @ManyToOne(() => MoodEntity, (moodEntity) => moodEntity.feelings)
   @JoinColumn({ name: 'mood_id' })
   mood: MoodEntity;
+
+  @OneToMany(() => StoryEntity, (storyEntity) => storyEntity.feeling)
+  stories: StoryEntity[];
 }

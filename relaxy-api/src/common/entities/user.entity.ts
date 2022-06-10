@@ -1,7 +1,8 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, Index } from 'typeorm';
+import { Column, Entity, Index, OneToMany } from 'typeorm';
 import { RoleNameEnum } from '../enums/role-name.enum';
 import { CustomBaseEntity } from './custom-base.entity';
+import { StoryEntity } from './story.entity';
 
 @Entity({ name: 'UserEntity' })
 export class UserEntity extends CustomBaseEntity {
@@ -29,4 +30,7 @@ export class UserEntity extends CustomBaseEntity {
     default: `${RoleNameEnum.SUPER_ADMIN_ROLE}`,
   })
   roleName: RoleNameEnum;
+
+  @OneToMany(() => StoryEntity, (storyEntity) => storyEntity.user)
+  stories: StoryEntity[];
 }

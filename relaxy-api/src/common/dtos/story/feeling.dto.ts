@@ -11,6 +11,7 @@ import { ActiveStatus } from 'src/common/enums/active.enum';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
 import { MoodDto } from './mood.dto';
+import { StoryDto } from './story.dto';
 
 export class FeelingDto extends BaseDto {
   @ApiProperty({ default: 'Shovon' })
@@ -35,6 +36,9 @@ export class FeelingDto extends BaseDto {
 
   @Type(() => MoodDto)
   mood: MoodDto;
+
+  @Type(() => StoryDto)
+  stories: StoryDto[];
 }
 
 export class FeelingsSearchDto extends ApiQueryPaginationBaseDTO {

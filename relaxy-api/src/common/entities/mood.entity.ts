@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { ActiveStatus } from '../enums/active.enum';
 import { CustomBaseEntity } from './custom-base.entity';
 import { FeelingEntity } from './feeling.entity';
+import { StoryEntity } from './story.entity';
 
 @Entity({ name: 'MoodEntity' })
 export class MoodEntity extends CustomBaseEntity {
@@ -21,4 +22,7 @@ export class MoodEntity extends CustomBaseEntity {
 
   @OneToMany(() => FeelingEntity, (feelingEntity) => feelingEntity.mood)
   feelings: FeelingEntity[];
+
+  @OneToMany(() => StoryEntity, (storyEntity) => storyEntity.mood)
+  stories: StoryEntity[];
 }
