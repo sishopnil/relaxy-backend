@@ -1,7 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDateString, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 import { BaseDto } from '../core/base.dto';
+import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
 import { UserDto } from '../user/user.dto';
 import { FeelingDto } from './feeling.dto';
 import { MoodDto } from './mood.dto';
@@ -26,4 +33,15 @@ export class StoryDto extends BaseDto {
 
   @Type(() => FeelingDto)
   feeling: FeelingDto;
+}
+
+export class StorySearchDto extends ApiQueryPaginationBaseDTO {
+  @ApiProperty({
+    default: '',
+    required: false,
+    type: String,
+  })
+  @IsOptional()
+  @IsString()
+  description: string;
 }

@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsUUID } from 'class-validator';
 import { StoryDto } from '../story.dto';
 
-export class CreateFeelingsDto extends StoryDto {
+export class CreateStoryDto extends StoryDto {
   @ApiProperty()
   @IsNotEmpty({ message: 'Mood ID must be defined' })
   @IsUUID('all', { message: 'Must be a valid Mood ID' })
