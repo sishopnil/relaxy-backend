@@ -7,6 +7,7 @@ import { SystemExceptionFilter } from './common/filters/system-exception.filter'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { FeelingsModule } from './feelings/feelings.module';
 import { MoodModule } from './mood/mood.module';
+import { ReactModule } from './react/react.module';
 import { UserModule } from './user/user.module';
 
 const ENV = process.env['NODE_ENV'];
@@ -38,8 +39,8 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     UserModule,
     MoodModule,
     FeelingsModule,
+    ReactModule,
   ],
-  // controllers: [AppController],
   providers: [
     {
       provide: APP_INTERCEPTOR,
@@ -55,8 +56,4 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     // },
   ],
 })
-export class AppModule {
-  constructor() {
-    console.log(__dirname);
-  }
-}
+export class AppModule {}
