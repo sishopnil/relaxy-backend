@@ -13,6 +13,7 @@ import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
 import { StoryDto } from '../story/story.dto';
 import { TagDto } from '../posts/tags.dto';
+import { PostDto } from '../posts/post.dto';
 
 export class UserDto extends BaseDto {
   @ApiProperty({ default: 'Shovon' })
@@ -45,6 +46,9 @@ export class UserDto extends BaseDto {
 
   @Type(() => TagDto)
   tags: TagDto[];
+
+  @Type(() => PostDto)
+  posts: PostDto[];
 }
 
 export class UserSearchDto extends ApiQueryPaginationBaseDTO {

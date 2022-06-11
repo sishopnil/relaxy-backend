@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { ActiveStatus } from '../enums/active.enum';
 import { CustomBaseEntity } from './custom-base.entity';
+import { PostEntity } from './post.entity';
 import { UserEntity } from './user.entity';
 
 @Entity({ name: 'TagEntity' })
@@ -36,4 +37,7 @@ export class TagEntity extends CustomBaseEntity {
     },
   })
   users: UserEntity[];
+
+  @ManyToMany(() => PostEntity, (postEntity) => postEntity.tags)
+  posts: PostEntity[];
 }

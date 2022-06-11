@@ -19,7 +19,7 @@ export class StoryService {
   constructor(
     @InjectRepository(StoryEntity)
     private readonly storyRepository: Repository<StoryEntity>,
-    @InjectRepository(StoryEntity)
+    @InjectRepository(MoodEntity)
     private readonly moodRepository: Repository<MoodEntity>,
     @InjectRepository(FeelingEntity)
     private readonly feelingRepository: Repository<FeelingEntity>,

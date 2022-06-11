@@ -11,6 +11,7 @@ import { AuthMiddleware } from './common/middleware/auth.middleware';
 import { FeelingsModule } from './feelings/feelings.module';
 import { MoodModule } from './mood/mood.module';
 import { PostTypeModule } from './post-types/post-type.module';
+import { PostModule } from './post/post.module';
 import { ReactModule } from './react/react.module';
 import { StoryModule } from './story/story.module';
 import { TagModule } from './tag/tag.module';
@@ -49,6 +50,7 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     StoryModule,
     TagModule,
     PostTypeModule,
+    PostModule,
   ],
   providers: [
     {

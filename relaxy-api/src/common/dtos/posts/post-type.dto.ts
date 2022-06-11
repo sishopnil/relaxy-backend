@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsEnum,
   IsNotEmpty,
@@ -9,6 +10,7 @@ import {
 import { ActiveStatus } from 'src/common/enums/active.enum';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
+import { PostDto } from './post.dto';
 
 export class PostTypeDto extends BaseDto {
   @ApiProperty({ default: 'Shovon' })
@@ -30,6 +32,9 @@ export class PostTypeDto extends BaseDto {
     message: 'Can be either Active or Inactive',
   })
   status: ActiveStatus;
+
+  @Type(() => PostDto)
+  posts: PostDto[];
 }
 
 export class PostTypeSearchDto extends ApiQueryPaginationBaseDTO {

@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { ActiveStatus } from '../enums/active.enum';
 import { CustomBaseEntity } from './custom-base.entity';
 import { FeelingEntity } from './feeling.entity';
+import { PostEntity } from './post.entity';
 import { StoryEntity } from './story.entity';
 
 @Entity({ name: 'PostTypeEntity' })
@@ -19,4 +20,7 @@ export class PostTypeEntity extends CustomBaseEntity {
     default: `${ActiveStatus.ACTIVE}`,
   })
   status: ActiveStatus;
+
+  @OneToMany(() => PostEntity, (postEntity) => postEntity.postType)
+  posts: PostEntity[];
 }
