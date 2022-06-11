@@ -1,13 +1,17 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { ConfigureEnum } from './common/enums/configure.enum';
+import { FieldExceptionFilter } from './common/filters/field-exception.filter';
 import { SystemExceptionFilter } from './common/filters/system-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { AuthMiddleware } from './common/middleware/auth.middleware';
 import { FeelingsModule } from './feelings/feelings.module';
 import { MoodModule } from './mood/mood.module';
 import { ReactModule } from './react/react.module';
+import { StoryModule } from './story/story.module';
 import { UserModule } from './user/user.module';
 
 const ENV = process.env['NODE_ENV'];
@@ -40,6 +44,7 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     MoodModule,
     FeelingsModule,
     ReactModule,
+    StoryModule,
   ],
   providers: [
     {
@@ -50,10 +55,18 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
       provide: APP_FILTER,
       useClass: SystemExceptionFilter,
     },
-    // {
-    //   provide: APP_FILTER,
-    //   useClass: FieldExceptionFilter,
-    // },
+    {
+      provide: APP_FILTER,
+      useClass: FieldExceptionFilter,
+    },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes('*');
+    consumer
+      .apply(AuthMiddleware)
+      // .exclude(...publicUrls)
+      .forRoutes('*');
+  }
+}

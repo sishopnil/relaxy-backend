@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStoryDto } from 'src/common/dtos/story/create/create-story.dto';
-import { MoodSearchDto } from 'src/common/dtos/story/mood.dto';
 import { StoryDto, StorySearchDto } from 'src/common/dtos/story/story.dto';
 import { FeelingEntity } from 'src/common/entities/feeling.entity';
 import { MoodEntity } from 'src/common/entities/mood.entity';
@@ -61,7 +60,7 @@ export class StoryService {
 
       sort = sort !== undefined ? (sort === 'ASC' ? 'ASC' : 'DESC') : 'DESC';
 
-      const orderFields = ['title', 'status'];
+      const orderFields = ['description', 'expireDate'];
       order =
         orderFields.findIndex((o) => o === order) > -1 ? order : 'updatedAt';
       query
@@ -69,13 +68,14 @@ export class StoryService {
         .skip((page - 1) * limit)
         .take(limit);
 
-      const [allMoods, count] = await query.getManyAndCount();
+      const [allStories, count] = await query.getManyAndCount();
 
-      const moods = await this.conversionService.toDtos<StoryEntity, StoryDto>(
-        allMoods,
-      );
+      const stories = await this.conversionService.toDtos<
+        StoryEntity,
+        StoryDto
+      >(allStories);
 
-      return [moods, count];
+      return [stories, count];
     } catch (error) {
       throw new SystemException(error);
     }
@@ -83,7 +83,9 @@ export class StoryService {
 
   async create(dto: CreateStoryDto): Promise<StoryDto> {
     try {
+      console.log('🔥🔥🔥🔥🔥', this.permissionService.returnRequest());
       const userId = await this.permissionService.returnRequest().id;
+
       const user = await this.getUserById(userId);
       const mood = await this.getMoodById(dto.moodId);
       const feeling = await this.getFeelingsById(dto.feelingId);
@@ -107,6 +109,11 @@ export class StoryService {
 
   async update(id: string, dto: CreateStoryDto): Promise<StoryDto> {
     try {
+      const userId = await this.permissionService.returnRequest().id;
+      const user = await this.getUserById(userId);
+      const mood = await this.getMoodById(dto.moodId);
+      const feeling = await this.getFeelingsById(dto.feelingId);
+
       const saveDto = await this.getStoryById(id);
 
       const dtoToEntity = await this.conversionService.toEntity<
@@ -114,10 +121,14 @@ export class StoryService {
         StoryDto
       >({ ...saveDto, ...dto });
 
-      const updatedMood = await this.storyRepository.save(dtoToEntity, {
+      dtoToEntity.user = user;
+      dtoToEntity.mood = mood;
+      dtoToEntity.feeling = feeling;
+
+      const updatedStory = await this.storyRepository.save(dtoToEntity, {
         reload: true,
       });
-      return this.conversionService.toDto<StoryEntity, StoryDto>(updatedMood);
+      return this.conversionService.toDto<StoryEntity, StoryDto>(updatedStory);
     } catch (error) {
       throw new SystemException(error);
     }
@@ -139,8 +150,8 @@ export class StoryService {
 
   async findById(id: string): Promise<StoryDto> {
     try {
-      const mood = await this.getStoryById(id);
-      return this.conversionService.toDto<StoryEntity, StoryDto>(mood);
+      const story = await this.getStoryById(id);
+      return this.conversionService.toDto<StoryEntity, StoryDto>(story);
     } catch (error) {
       throw new SystemException(error);
     }
@@ -149,14 +160,14 @@ export class StoryService {
   /********************** Start checking relations of post ********************/
 
   async getStoryById(id: string): Promise<StoryEntity> {
-    const mood = await this.storyRepository.findOne({
+    const story = await this.storyRepository.findOne({
       where: {
         id,
         isActive: ActiveStatus.ACTIVE,
       },
     });
-    this.exceptionService.notFound(mood, 'Mood Not Found!!');
-    return mood;
+    this.exceptionService.notFound(story, 'Story Not Found!!');
+    return story;
   }
 
   async getMoodById(id: string): Promise<MoodEntity> {

@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { UserResponseDto } from '../dtos/reponse/user-response.dto';
-import { RoleNameEnum } from '../enums/role-name.enum';
 
 @Injectable()
 export class PermissionService {
