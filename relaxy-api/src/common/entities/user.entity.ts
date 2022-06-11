@@ -1,8 +1,9 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, Index, OneToMany } from 'typeorm';
+import { Column, Entity, Index, ManyToMany, OneToMany } from 'typeorm';
 import { RoleNameEnum } from '../enums/role-name.enum';
 import { CustomBaseEntity } from './custom-base.entity';
 import { StoryEntity } from './story.entity';
+import { TagEntity } from './tags.entity';
 
 @Entity({ name: 'UserEntity' })
 export class UserEntity extends CustomBaseEntity {
@@ -33,4 +34,7 @@ export class UserEntity extends CustomBaseEntity {
 
   @OneToMany(() => StoryEntity, (storyEntity) => storyEntity.user)
   stories: StoryEntity[];
+
+  @ManyToMany(() => TagEntity, (tagEntity) => tagEntity.users)
+  tags: TagEntity[];
 }

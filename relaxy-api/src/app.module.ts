@@ -12,6 +12,7 @@ import { FeelingsModule } from './feelings/feelings.module';
 import { MoodModule } from './mood/mood.module';
 import { ReactModule } from './react/react.module';
 import { StoryModule } from './story/story.module';
+import { TagModule } from './tag/tag.module';
 import { UserModule } from './user/user.module';
 
 const ENV = process.env['NODE_ENV'];
@@ -45,6 +46,7 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     FeelingsModule,
     ReactModule,
     StoryModule,
+    TagModule,
   ],
   providers: [
     {
