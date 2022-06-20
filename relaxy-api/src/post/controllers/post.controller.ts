@@ -16,8 +16,10 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { AuthWithRoles } from 'src/common/decorators/auth-guard.decorator';
 import { CreatePostDto } from 'src/common/dtos/posts/create/create-post.dto';
 import { PostSearchDto } from 'src/common/dtos/posts/post.dto';
+import { SUPERADMIN_ADMIN } from 'src/common/enums/role-name.enum';
 import { PaginationDecorator } from '../../common/decorators/pagination.decorator';
 import { PaginationDTO } from '../../common/dtos/pagination/pagination.dto';
 import { ResponseDto } from '../../common/dtos/reponse/response.dto';
@@ -79,7 +81,7 @@ export class PostController {
   })
   @ApiBody({ type: CreatePostDto })
   @HttpCode(HttpStatus.CREATED)
-  // @AuthWithRoles([...SUPERADMIN_ADMIN])
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   @Post()
   create(
     @Body(

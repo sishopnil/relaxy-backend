@@ -87,6 +87,7 @@ export class PostService {
     try {
       console.log('🔥🔥🔥🔥🔥', this.permissionService.returnRequest());
       const userId = await this.permissionService.returnRequest().id;
+      console.log('🔥🔥🔥🔥🔥UserId', this.permissionService.returnRequest());
 
       const user = await this.getUserById(userId);
       const postType = await this.getPostTypeById(dto.postTypeId);
