@@ -1,20 +1,20 @@
-import { ConversionService } from './../../common/services/conversion.service';
-import { ActiveStatus } from './../../common/enums/active.enum';
-import { BcryptService } from './../../common/services/bcrypt.service';
-import { RequestService } from './../../common/services/request.service';
-import { UserDto } from './../../common/dtos/user/user.dto';
-import { SystemException } from './../../common/exceptions/system.exception';
-import { UserResponseDto } from './../../common/dtos/reponse/user-response.dto';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from '../../common/entities/user.entity';
-import { Brackets, Repository } from 'typeorm';
-import * as crypto from 'crypto';
-import { LoginDto } from '../../common/dtos/user/create/login.dto';
-import { ConfigureEnum } from '../../common/enums/configure.enum';
 import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as crypto from 'crypto';
 import * as Redis from 'ioredis';
 import { CustomUserRoleDto } from 'src/common/dtos/user/custom-user-role.dto';
+import { Brackets, Repository } from 'typeorm';
+import { LoginDto } from '../../common/dtos/user/create/login.dto';
+import { UserEntity } from '../../common/entities/user.entity';
+import { ConfigureEnum } from '../../common/enums/configure.enum';
+import { UserResponseDto } from './../../common/dtos/reponse/user-response.dto';
+import { UserDto } from './../../common/dtos/user/user.dto';
+import { ActiveStatus } from './../../common/enums/active.enum';
+import { SystemException } from './../../common/exceptions/system.exception';
+import { BcryptService } from './../../common/services/bcrypt.service';
+import { ConversionService } from './../../common/services/conversion.service';
+import { RequestService } from './../../common/services/request.service';
 
 @Injectable()
 export class AuthService {
