@@ -16,8 +16,10 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { AuthWithRoles } from 'src/common/decorators/auth-guard.decorator';
 import { CreateStoryDto } from 'src/common/dtos/story/create/create-story.dto';
 import { StorySearchDto } from 'src/common/dtos/story/story.dto';
+import { SUPERADMIN_ADMIN } from 'src/common/enums/role-name.enum';
 import { PaginationDecorator } from '../../common/decorators/pagination.decorator';
 import { PaginationDTO } from '../../common/dtos/pagination/pagination.dto';
 import { ResponseDto } from '../../common/dtos/reponse/response.dto';
@@ -79,7 +81,7 @@ export class StoryController {
   })
   @ApiBody({ type: CreateStoryDto })
   @HttpCode(HttpStatus.CREATED)
-  // @AuthWithRoles([...SUPERADMIN_ADMIN])
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   @Post()
   create(
     @Body(
@@ -104,7 +106,7 @@ export class StoryController {
     description: 'Story has been updated',
   })
   @ApiBody({ type: CreateStoryDto })
-  // @AuthWithRoles([...SUPERADMIN_ADMIN])
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   @HttpCode(HttpStatus.OK)
   @Put(':id')
   update(

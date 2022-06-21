@@ -106,7 +106,7 @@ export class PostController {
     description: 'Post has been updated',
   })
   @ApiBody({ type: CreatePostDto })
-  // @AuthWithRoles([...SUPERADMIN_ADMIN])
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   @HttpCode(HttpStatus.OK)
   @Put(':id')
   update(

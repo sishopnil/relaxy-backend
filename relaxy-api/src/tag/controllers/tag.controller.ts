@@ -105,7 +105,7 @@ export class TagController {
     description: 'Mood has been updated',
   })
   @ApiBody({ type: TagDto })
-  // @AuthWithRoles([...SUPERADMIN_ADMIN])
+  @AuthWithRoles([...SUPERADMIN_ADMIN])
   @HttpCode(HttpStatus.OK)
   @Put(':id')
   update(
