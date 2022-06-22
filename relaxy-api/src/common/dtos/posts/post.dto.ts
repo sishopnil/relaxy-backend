@@ -1,15 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import {
-  IsDateString,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
 import { UserDto } from '../user/user.dto';
+import { PostCommentDto } from './post-comment.dto';
 import { PostReactDto } from './post-react.dto';
 import { PostTypeDto } from './post-type.dto';
 import { TagDto } from './tags.dto';
@@ -32,6 +27,9 @@ export class PostDto extends BaseDto {
 
   @Type(() => PostReactDto)
   postReacts: PostReactDto[];
+
+  @Type(() => PostCommentDto)
+  postComments: PostCommentDto[];
 }
 
 export class PostSearchDto extends ApiQueryPaginationBaseDTO {

@@ -10,6 +10,7 @@ import {
 } from 'class-validator';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
+import { PostCommentDto } from '../posts/post-comment.dto';
 import { PostReactDto } from '../posts/post-react.dto';
 import { PostDto } from '../posts/post.dto';
 import { TagDto } from '../posts/tags.dto';
@@ -61,6 +62,9 @@ export class UserDto extends BaseDto {
 
   @Type(() => PostReactDto)
   postReacts: PostReactDto[];
+
+  @Type(() => PostCommentDto)
+  postComments: PostCommentDto[];
 }
 
 export class UserSearchDto extends ApiQueryPaginationBaseDTO {
