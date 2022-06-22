@@ -2,6 +2,7 @@ import { Exclude } from 'class-transformer';
 import { Column, Entity, Index, ManyToMany, OneToMany } from 'typeorm';
 import { RoleNameEnum } from '../enums/role-name.enum';
 import { CustomBaseEntity } from './custom-base.entity';
+import { PostCommentReactEntity } from './post-comment-react.entity';
 import { PostCommentEntity } from './post-comment.entity';
 import { PostReactEntity } from './post-react.entity';
 import { PostEntity } from './post.entity';
@@ -69,4 +70,10 @@ export class UserEntity extends CustomBaseEntity {
     (postCommentEntity) => postCommentEntity.commentBy,
   )
   postComments: PostCommentEntity[];
+
+  @OneToMany(
+    () => PostCommentReactEntity,
+    (postCommentReactEntity) => postCommentReactEntity.reactedBy,
+  )
+  postCommentReacts: PostCommentReactEntity[];
 }

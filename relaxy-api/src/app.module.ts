@@ -10,6 +10,7 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { AuthMiddleware } from './common/middleware/auth.middleware';
 import { FeelingsModule } from './feelings/feelings.module';
 import { MoodModule } from './mood/mood.module';
+import { PostCommentReactModule } from './post-comment-react/post-comment-react.module';
 import { PostCommentModule } from './post-comment/post-comment.module';
 import { PostReactModule } from './post-react/post-react.module';
 import { PostTypeModule } from './post-types/post-type.module';
@@ -59,6 +60,7 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     StoryCommentModule,
     PostReactModule,
     PostCommentModule,
+    PostCommentReactModule,
   ],
   providers: [
     {

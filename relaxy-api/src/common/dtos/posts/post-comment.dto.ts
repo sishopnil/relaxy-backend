@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 import { BaseDto } from '../core/base.dto';
 import { UserDto } from '../user/user.dto';
+import { PostCommentReactDto } from './post-comment-react.dto';
 import { PostDto } from './post.dto';
 
 export class PostCommentDto extends BaseDto {
@@ -17,4 +18,7 @@ export class PostCommentDto extends BaseDto {
 
   @Type(() => UserDto)
   commentBy: UserDto;
+
+  @Type(() => PostCommentReactDto)
+  postCommentReacts: PostCommentReactDto[];
 }
