@@ -1,6 +1,7 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { ActiveStatus } from '../enums/active.enum';
 import { CustomBaseEntity } from './custom-base.entity';
+import { StoryReactEntity } from './story-react.entity';
 
 @Entity({ name: 'ReactEntity' })
 export class ReactEntity extends CustomBaseEntity {
@@ -17,4 +18,7 @@ export class ReactEntity extends CustomBaseEntity {
     default: `${ActiveStatus.ACTIVE}`,
   })
   status: ActiveStatus;
+
+  @OneToMany(() => StoryReactEntity, (storyReactEntity) => storyReactEntity.react)
+  storyReacts: StoryReactEntity[];
 }

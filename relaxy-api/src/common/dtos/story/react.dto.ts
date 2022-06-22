@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsEnum,
   IsNotEmpty,
@@ -9,6 +10,7 @@ import {
 import { ActiveStatus } from 'src/common/enums/active.enum';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
+import { StoryReactDto } from './story-react.dto';
 
 export class ReactDto extends BaseDto {
   @ApiProperty({ default: 'LOVE' })
@@ -30,6 +32,9 @@ export class ReactDto extends BaseDto {
     message: 'Can be either Active or Inactive',
   })
   status: ActiveStatus;
+
+  @Type(() => StoryReactDto)
+  storyReacts: StoryReactDto[];
 }
 
 export class ReactSearchDto extends ApiQueryPaginationBaseDTO {

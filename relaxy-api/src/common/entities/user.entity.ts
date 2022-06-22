@@ -3,6 +3,7 @@ import { Column, Entity, Index, ManyToMany, OneToMany } from 'typeorm';
 import { RoleNameEnum } from '../enums/role-name.enum';
 import { CustomBaseEntity } from './custom-base.entity';
 import { PostEntity } from './post.entity';
+import { StoryReactEntity } from './story-react.entity';
 import { StoryEntity } from './story.entity';
 import { TagEntity } from './tags.entity';
 
@@ -41,4 +42,7 @@ export class UserEntity extends CustomBaseEntity {
 
   @ManyToMany(() => TagEntity, (tagEntity) => tagEntity.users)
   tags: TagEntity[];
+
+  @OneToMany(() => StoryReactEntity, (storyReactEntity) => storyReactEntity.reactedBy)
+  storyReacts: StoryReactEntity[];
 }

@@ -14,6 +14,7 @@ import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-ba
 import { StoryDto } from '../story/story.dto';
 import { TagDto } from '../posts/tags.dto';
 import { PostDto } from '../posts/post.dto';
+import { StoryReactDto } from '../story/story-react.dto';
 
 export class UserDto extends BaseDto {
   @ApiProperty({ default: 'Shovon' })
@@ -90,4 +91,7 @@ export class UserSearchDto extends ApiQueryPaginationBaseDTO {
   })
   @IsEnum(RoleNameEnum)
   roleName: RoleNameEnum;
+
+  @Type(() => StoryReactDto)
+  storyReacts: StoryReactDto[];
 }

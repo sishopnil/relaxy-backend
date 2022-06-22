@@ -12,6 +12,7 @@ import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-ba
 import { UserDto } from '../user/user.dto';
 import { FeelingDto } from './feeling.dto';
 import { MoodDto } from './mood.dto';
+import { StoryReactDto } from './story-react.dto';
 
 export class StoryDto extends BaseDto {
   @ApiProperty({ default: 'Test Description' })
@@ -33,6 +34,9 @@ export class StoryDto extends BaseDto {
 
   @Type(() => FeelingDto)
   feeling: FeelingDto;
+
+  @Type(() => StoryReactDto)
+  storyReacts: StoryReactDto[];
 }
 
 export class StorySearchDto extends ApiQueryPaginationBaseDTO {
