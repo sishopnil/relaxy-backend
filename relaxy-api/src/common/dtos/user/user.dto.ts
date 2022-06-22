@@ -1,4 +1,3 @@
-import { RoleNameEnum } from './../../enums/role-name.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Type } from 'class-transformer';
 import {
@@ -7,14 +6,16 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  MaxLength,
+  MaxLength
 } from 'class-validator';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
-import { StoryDto } from '../story/story.dto';
-import { TagDto } from '../posts/tags.dto';
 import { PostDto } from '../posts/post.dto';
+import { TagDto } from '../posts/tags.dto';
+import { StoryCommentDto } from '../story/story-comment.dto';
 import { StoryReactDto } from '../story/story-react.dto';
+import { StoryDto } from '../story/story.dto';
+import { RoleNameEnum } from './../../enums/role-name.enum';
 
 export class UserDto extends BaseDto {
   @ApiProperty({ default: 'Shovon' })
@@ -94,4 +95,7 @@ export class UserSearchDto extends ApiQueryPaginationBaseDTO {
 
   @Type(() => StoryReactDto)
   storyReacts: StoryReactDto[];
+
+  @Type(() => StoryCommentDto)
+  storyComments: StoryCommentDto[];
 }

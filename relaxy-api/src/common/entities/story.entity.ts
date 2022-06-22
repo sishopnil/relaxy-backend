@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { CustomBaseEntity } from './custom-base.entity';
 import { FeelingEntity } from './feeling.entity';
 import { MoodEntity } from './mood.entity';
+import { StoryCommentEntity } from './story-comment.entity';
 import { StoryReactEntity } from './story-react.entity';
 import { UserEntity } from './user.entity';
 
@@ -30,4 +31,7 @@ export class StoryEntity extends CustomBaseEntity {
 
   @OneToMany(() => StoryReactEntity, (storyReactEntity) => storyReactEntity.story)
   storyReacts: StoryReactEntity[];
+
+  @OneToMany(() => StoryCommentEntity, (storyReactEntity) => storyReactEntity.story)
+  storyComments: StoryCommentEntity[];
 }
