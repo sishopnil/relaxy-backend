@@ -5,11 +5,13 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   OneToOne,
 } from 'typeorm';
 import { CustomBaseEntity } from './custom-base.entity';
 import { FeelingEntity } from './feeling.entity';
 import { MoodEntity } from './mood.entity';
+import { PostReactEntity } from './post-react.entity';
 import { PostTypeEntity } from './post-type.entity';
 import { TagEntity } from './tags.entity';
 import { UserEntity } from './user.entity';
@@ -40,4 +42,7 @@ export class PostEntity extends CustomBaseEntity {
     },
   })
   tags: TagEntity[];
+
+  @OneToMany(() => PostReactEntity, (postReactEntity) => postReactEntity.post)
+  postReacts: PostReactEntity[];
 }

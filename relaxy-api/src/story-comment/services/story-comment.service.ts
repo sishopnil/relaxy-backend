@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStoryCommentDto } from 'src/common/dtos/story/create/create-story-comment.dto copy';
 import { StoryCommentDto } from 'src/common/dtos/story/story-comment.dto';
-import { ReactEntity } from 'src/common/entities/react.entity';
 import { StoryCommentEntity } from 'src/common/entities/story-comment.entity';
 import { StoryEntity } from 'src/common/entities/story.entity';
 import { UserEntity } from 'src/common/entities/user.entity';
@@ -32,9 +31,11 @@ export class StoryCommentService {
     try {
       const allReacts = await this.storyCommentRepository.find({
         where: { isActive: ActiveStatus.ACTIVE },
-        relations:['story','commentBy']
+        relations: ['story', 'commentBy'],
       });
-      return this.conversionService.toDtos<StoryCommentEntity, StoryCommentDto>(allReacts);
+      return this.conversionService.toDtos<StoryCommentEntity, StoryCommentDto>(
+        allReacts,
+      );
     } catch (error) {
       throw new SystemException(error);
     }
@@ -81,20 +82,25 @@ export class StoryCommentService {
       >(dto);
 
       const user = await this.getUserById(userId);
-      const story = await this.getStoryById(dto.storyId)
+      const story = await this.getStoryById(dto.storyId);
 
       dtoToEntity.commentBy = user;
       dtoToEntity.story = story;
 
       const storyReact = this.storyCommentRepository.create(dtoToEntity);
       await this.storyCommentRepository.save(storyReact);
-      return this.conversionService.toDto<StoryCommentEntity, StoryCommentDto>(storyReact);
+      return this.conversionService.toDto<StoryCommentEntity, StoryCommentDto>(
+        storyReact,
+      );
     } catch (error) {
       throw new SystemException(error);
     }
   }
 
-  async update(id: string, dto: CreateStoryCommentDto): Promise<StoryCommentDto> {
+  async update(
+    id: string,
+    dto: CreateStoryCommentDto,
+  ): Promise<StoryCommentDto> {
     try {
       const userId = this.permissionService.returnRequest().id;
       const saveDto = await this.getStoryReactById(id);
@@ -104,7 +110,7 @@ export class StoryCommentService {
         StoryCommentDto
       >({ ...saveDto, ...dto });
       const user = await this.getUserById(userId);
-      const story = await this.getStoryById(dto.storyId)
+      const story = await this.getStoryById(dto.storyId);
 
       dtoToEntity.commentBy = user;
       dtoToEntity.story = story;
@@ -112,7 +118,9 @@ export class StoryCommentService {
       const updatedReact = await this.storyCommentRepository.save(dtoToEntity, {
         reload: true,
       });
-      return this.conversionService.toDto<StoryCommentEntity, StoryCommentDto>(updatedReact);
+      return this.conversionService.toDto<StoryCommentEntity, StoryCommentDto>(
+        updatedReact,
+      );
     } catch (error) {
       throw new SystemException(error);
     }
@@ -135,7 +143,9 @@ export class StoryCommentService {
   async findById(id: string): Promise<StoryCommentDto> {
     try {
       const react = await this.getStoryReactById(id);
-      return this.conversionService.toDto<StoryCommentEntity, StoryCommentDto>(react);
+      return this.conversionService.toDto<StoryCommentEntity, StoryCommentDto>(
+        react,
+      );
     } catch (error) {
       throw new SystemException(error);
     }

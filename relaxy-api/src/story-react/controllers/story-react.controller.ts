@@ -8,7 +8,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -18,11 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthWithRoles } from 'src/common/decorators/auth-guard.decorator';
 import { CreateStoryReactDto } from 'src/common/dtos/story/create/create-story-react.dto';
-import { CreateStoryDto } from 'src/common/dtos/story/create/create-story.dto';
-import { ReactDto, ReactSearchDto } from 'src/common/dtos/story/react.dto';
 import { SUPERADMIN_ADMIN } from 'src/common/enums/role-name.enum';
-import { PaginationDecorator } from '../../common/decorators/pagination.decorator';
-import { PaginationDTO } from '../../common/dtos/pagination/pagination.dto';
 import { ResponseDto } from '../../common/dtos/reponse/response.dto';
 import { DtoValidationPipe } from '../../common/pipes/dto-validation.pipe';
 import { UuidValidationPipe } from '../../common/pipes/uuid-validation.pipe';

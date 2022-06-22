@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PostReactEntity } from 'src/common/entities/post-react.entity';
+import { PostEntity } from 'src/common/entities/post.entity';
 import { ReactEntity } from 'src/common/entities/react.entity';
 import { StoryReactEntity } from 'src/common/entities/story-react.entity';
 import { StoryEntity } from 'src/common/entities/story.entity';
@@ -9,26 +11,26 @@ import { ConversionService } from '../common/services/conversion.service';
 import { ExceptionService } from '../common/services/exception.service';
 import { RequestService } from '../common/services/request.service';
 import { ResponseService } from '../common/services/response.service';
-import { StoryReactController } from './controllers/story-react.controller';
-import { StoryReactService } from './services/story-react.service';
+import { PostReactController } from './controllers/post-react.controller';
+import { PostReactService } from './services/post-react.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       ReactEntity,
-      StoryReactEntity,
-      StoryEntity,
+      PostReactEntity,
+      PostEntity,
       UserEntity,
     ]),
   ],
-  controllers: [StoryReactController],
+  controllers: [PostReactController],
   providers: [
     ConversionService,
     ResponseService,
     ExceptionService,
     RequestService,
-    StoryReactService,
+    PostReactService,
     PermissionService,
   ],
 })
-export class StoryReactModule {}
+export class PostReactModule {}

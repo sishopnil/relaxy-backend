@@ -6,10 +6,11 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  MaxLength
+  MaxLength,
 } from 'class-validator';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
+import { PostReactDto } from '../posts/post-react.dto';
 import { PostDto } from '../posts/post.dto';
 import { TagDto } from '../posts/tags.dto';
 import { StoryCommentDto } from '../story/story-comment.dto';
@@ -51,6 +52,15 @@ export class UserDto extends BaseDto {
 
   @Type(() => PostDto)
   posts: PostDto[];
+
+  @Type(() => StoryReactDto)
+  storyReacts: StoryReactDto[];
+
+  @Type(() => StoryCommentDto)
+  storyComments: StoryCommentDto[];
+
+  @Type(() => PostReactDto)
+  postReacts: PostReactDto[];
 }
 
 export class UserSearchDto extends ApiQueryPaginationBaseDTO {

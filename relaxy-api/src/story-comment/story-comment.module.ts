@@ -12,7 +12,9 @@ import { StoryCommentController } from './controllers/story-comment.controller';
 import { StoryCommentService } from './services/story-comment.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([StoryCommentEntity,UserEntity,StoryEntity])],
+  imports: [
+    TypeOrmModule.forFeature([StoryCommentEntity, UserEntity, StoryEntity]),
+  ],
   controllers: [StoryCommentController],
   providers: [
     ConversionService,
@@ -20,7 +22,7 @@ import { StoryCommentService } from './services/story-comment.service';
     ExceptionService,
     RequestService,
     StoryCommentService,
-    PermissionService
+    PermissionService,
   ],
 })
 export class StoryCommentModule {}

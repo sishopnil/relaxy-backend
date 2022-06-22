@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { ActiveStatus } from '../enums/active.enum';
 import { CustomBaseEntity } from './custom-base.entity';
+import { PostReactEntity } from './post-react.entity';
 import { StoryReactEntity } from './story-react.entity';
 
 @Entity({ name: 'ReactEntity' })
@@ -19,6 +20,12 @@ export class ReactEntity extends CustomBaseEntity {
   })
   status: ActiveStatus;
 
-  @OneToMany(() => StoryReactEntity, (storyReactEntity) => storyReactEntity.react)
+  @OneToMany(
+    () => StoryReactEntity,
+    (storyReactEntity) => storyReactEntity.react,
+  )
   storyReacts: StoryReactEntity[];
+
+  @OneToMany(() => PostReactEntity, (postReactEntity) => postReactEntity.react)
+  postReacts: PostReactEntity[];
 }

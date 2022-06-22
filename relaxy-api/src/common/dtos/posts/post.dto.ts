@@ -10,6 +10,7 @@ import {
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
 import { UserDto } from '../user/user.dto';
+import { PostReactDto } from './post-react.dto';
 import { PostTypeDto } from './post-type.dto';
 import { TagDto } from './tags.dto';
 
@@ -28,6 +29,9 @@ export class PostDto extends BaseDto {
 
   @Type(() => TagDto)
   tags: TagDto[];
+
+  @Type(() => PostReactDto)
+  postReacts: PostReactDto[];
 }
 
 export class PostSearchDto extends ApiQueryPaginationBaseDTO {
