@@ -13,6 +13,7 @@ import { MoodModule } from './mood/mood.module';
 import { PostTypeModule } from './post-types/post-type.module';
 import { PostModule } from './post/post.module';
 import { ReactModule } from './react/react.module';
+import { ServiceModule } from './service/service.module';
 import { StoryCommentModule } from './story-comment/story-comment.module';
 import { StoryReactModule } from './story-react/story-react.module';
 import { StoryModule } from './story/story.module';
@@ -54,7 +55,8 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     PostTypeModule,
     PostModule,
     StoryReactModule,
-    StoryCommentModule
+    StoryCommentModule,
+    ServiceModule
   ],
   providers: [
     {
