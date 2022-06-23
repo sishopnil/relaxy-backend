@@ -10,6 +10,8 @@ import {
 import { ActiveStatus } from 'src/common/enums/active.enum';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
+import { PostCommentReactDto } from '../posts/post-comment-react.dto';
+import { PostReactDto } from '../posts/post-react.dto';
 import { StoryReactDto } from './story-react.dto';
 
 export class ReactDto extends BaseDto {
@@ -35,6 +37,12 @@ export class ReactDto extends BaseDto {
 
   @Type(() => StoryReactDto)
   storyReacts: StoryReactDto[];
+
+  @Type(() => PostReactDto)
+  postReacts: PostReactDto[];
+
+  @Type(() => PostCommentReactDto)
+  postCommentReacts: PostCommentReactDto[];
 }
 
 export class ReactSearchDto extends ApiQueryPaginationBaseDTO {

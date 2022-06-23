@@ -2,6 +2,9 @@ import { Exclude } from 'class-transformer';
 import { Column, Entity, Index, ManyToMany, OneToMany } from 'typeorm';
 import { RoleNameEnum } from '../enums/role-name.enum';
 import { CustomBaseEntity } from './custom-base.entity';
+import { PostCommentReactEntity } from './post-comment-react.entity';
+import { PostCommentEntity } from './post-comment.entity';
+import { PostReactEntity } from './post-react.entity';
 import { PostEntity } from './post.entity';
 import { StoryCommentEntity } from './story-comment.entity';
 import { StoryReactEntity } from './story-react.entity';
@@ -44,9 +47,33 @@ export class UserEntity extends CustomBaseEntity {
   @ManyToMany(() => TagEntity, (tagEntity) => tagEntity.users)
   tags: TagEntity[];
 
-  @OneToMany(() => StoryReactEntity, (storyReactEntity) => storyReactEntity.reactedBy)
+  @OneToMany(
+    () => StoryReactEntity,
+    (storyReactEntity) => storyReactEntity.reactedBy,
+  )
   storyReacts: StoryReactEntity[];
 
-  @OneToMany(() => StoryCommentEntity, (storyReactEntity) => storyReactEntity.commentBy)
+  @OneToMany(
+    () => StoryCommentEntity,
+    (storyReactEntity) => storyReactEntity.commentBy,
+  )
   storyComments: StoryCommentEntity[];
+
+  @OneToMany(
+    () => PostReactEntity,
+    (postReactEntity) => postReactEntity.reactedBy,
+  )
+  postReacts: PostReactEntity[];
+
+  @OneToMany(
+    () => PostCommentEntity,
+    (postCommentEntity) => postCommentEntity.commentBy,
+  )
+  postComments: PostCommentEntity[];
+
+  @OneToMany(
+    () => PostCommentReactEntity,
+    (postCommentReactEntity) => postCommentReactEntity.reactedBy,
+  )
+  postCommentReacts: PostCommentReactEntity[];
 }

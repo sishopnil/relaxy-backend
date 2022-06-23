@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateStoryReactDto } from 'src/common/dtos/story/create/create-story-react.dto';
-import { StoryReactDto } from 'src/common/dtos/story/story-react.dto';
+import { CreatePostCommentReactDto } from 'src/common/dtos/posts/create/create-post-comment-react.dto';
+import { PostCommentReactDto } from 'src/common/dtos/posts/post-comment-react.dto';
+import { PostCommentReactEntity } from 'src/common/entities/post-comment-react.entity';
+import { PostCommentEntity } from 'src/common/entities/post-comment.entity';
+import { PostEntity } from 'src/common/entities/post.entity';
 import { ReactEntity } from 'src/common/entities/react.entity';
-import { StoryReactEntity } from 'src/common/entities/story-react.entity';
-import { StoryEntity } from 'src/common/entities/story.entity';
 import { UserEntity } from 'src/common/entities/user.entity';
 import { ActiveStatus } from 'src/common/enums/active.enum';
 import { PermissionService } from 'src/common/services/permission.service';
@@ -15,116 +16,94 @@ import { ConversionService } from '../../common/services/conversion.service';
 import { ExceptionService } from '../../common/services/exception.service';
 
 @Injectable()
-export class StoryReactService {
+export class PostCommentReactService {
   constructor(
     @InjectRepository(ReactEntity)
     private readonly reactRepository: Repository<ReactEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    @InjectRepository(StoryReactEntity)
-    private readonly storyReactRepository: Repository<StoryReactEntity>,
-    @InjectRepository(StoryEntity)
-    private readonly storyRepository: Repository<StoryEntity>,
+    @InjectRepository(PostCommentReactEntity)
+    private readonly postCommentReactRepository: Repository<PostCommentReactEntity>,
+    @InjectRepository(PostCommentEntity)
+    private readonly postCommentRepository: Repository<PostCommentEntity>,
     private readonly conversionService: ConversionService,
     private readonly exceptionService: ExceptionService,
     private readonly permissionService: PermissionService,
   ) {}
 
-  async findAll(): Promise<StoryReactDto[]> {
+  async findAll(): Promise<PostCommentReactDto[]> {
     try {
-      const allReacts = await this.storyReactRepository.find({
+      const allReacts = await this.postCommentReactRepository.find({
         where: { isActive: ActiveStatus.ACTIVE },
-        relations: ['story', 'react', 'reactedBy'],
+        relations: ['postComment', 'react', 'reactedBy'],
       });
-      return this.conversionService.toDtos<StoryReactEntity, StoryReactDto>(
-        allReacts,
-      );
+      return this.conversionService.toDtos<
+        PostCommentReactEntity,
+        PostCommentReactDto
+      >(allReacts);
     } catch (error) {
       throw new SystemException(error);
     }
   }
 
-  // async pagination(
-  //   page: number,
-  //   limit: number,
-  //   sort: 'DESC' | 'ASC',
-  //   order: string,
-  // ): Promise<[StoryReactDto[], number]> {
-  //   try {
-  //     const query = await this.storyReactRepository.createQueryBuilder('reacts');
-  //     query.where({ isActive: ActiveStatus.ACTIVE });
-
-  //     sort = sort !== undefined ? (sort === 'ASC' ? 'ASC' : 'DESC') : 'DESC';
-
-  //     const orderFields = ['title', 'status'];
-  //     order =
-  //       orderFields.findIndex((o) => o === order) > -1 ? order : 'updatedAt';
-  //     query
-  //       .orderBy(`reacts.${order}`, sort)
-  //       .skip((page - 1) * limit)
-  //       .take(limit);
-
-  //     const [allReacts, count] = await query.getManyAndCount();
-
-  //     const reacts = await this.conversionService.toDtos<StoryReactEntity, StoryReactDto>(
-  //       allReacts,
-  //     );
-
-  //     return [reacts, count];
-  //   } catch (error) {
-  //     throw new SystemException(error);
-  //   }
-  // }
-
-  async create(dto: CreateStoryReactDto): Promise<StoryReactDto> {
+  async create(dto: CreatePostCommentReactDto): Promise<PostCommentReactDto> {
     try {
       const userId = await this.permissionService.returnRequest().id;
       const dtoToEntity = await this.conversionService.toEntity<
-        StoryReactEntity,
-        StoryReactDto
+        PostCommentReactEntity,
+        PostCommentReactDto
       >(dto);
 
       const user = await this.getUserById(userId);
-      const story = await this.getStoryById(dto.storyId);
       const react = await this.getReactById(dto.reactId);
+      const postComment = await this.getPostCommentById(dto.postCommentId);
 
       dtoToEntity.reactedBy = user;
-      dtoToEntity.story = story;
       dtoToEntity.react = react;
+      dtoToEntity.postComment = postComment;
 
-      const storyReact = this.storyReactRepository.create(dtoToEntity);
-      await this.storyReactRepository.save(storyReact);
-      return this.conversionService.toDto<StoryReactEntity, StoryReactDto>(
-        storyReact,
-      );
+      const storyReact = this.postCommentReactRepository.create(dtoToEntity);
+      await this.postCommentReactRepository.save(storyReact);
+      return this.conversionService.toDto<
+        PostCommentReactEntity,
+        PostCommentReactDto
+      >(storyReact);
     } catch (error) {
       throw new SystemException(error);
     }
   }
 
-  async update(id: string, dto: CreateStoryReactDto): Promise<StoryReactDto> {
+  async update(
+    id: string,
+    dto: CreatePostCommentReactDto,
+  ): Promise<PostCommentReactDto> {
     try {
       const userId = this.permissionService.returnRequest().id;
-      const saveDto = await this.getStoryReactById(id);
+      const saveDto = await this.getPostCommentReactById(id);
 
       const dtoToEntity = await this.conversionService.toEntity<
-        StoryReactEntity,
-        StoryReactDto
+        PostCommentReactEntity,
+        PostCommentReactDto
       >({ ...saveDto, ...dto });
+
       const user = await this.getUserById(userId);
-      const story = await this.getStoryById(dto.storyId);
       const react = await this.getReactById(dto.reactId);
+      const postComment = await this.getPostCommentById(dto.postCommentId);
 
       dtoToEntity.reactedBy = user;
-      dtoToEntity.story = story;
       dtoToEntity.react = react;
+      dtoToEntity.postComment = postComment;
 
-      const updatedReact = await this.storyReactRepository.save(dtoToEntity, {
-        reload: true,
-      });
-      return this.conversionService.toDto<StoryReactEntity, StoryReactDto>(
-        updatedReact,
+      const updatedReact = await this.postCommentReactRepository.save(
+        dtoToEntity,
+        {
+          reload: true,
+        },
       );
+      return this.conversionService.toDto<
+        PostCommentReactEntity,
+        PostCommentReactDto
+      >(updatedReact);
     } catch (error) {
       throw new SystemException(error);
     }
@@ -132,9 +111,9 @@ export class StoryReactService {
 
   async remove(id: string): Promise<DeleteDto> {
     try {
-      const saveDto = await this.getStoryReactById(id);
+      const saveDto = await this.getPostCommentReactById(id);
 
-      const deleted = await this.storyReactRepository.save({
+      const deleted = await this.postCommentReactRepository.save({
         ...saveDto,
         isActive: ActiveStatus.INACTIVE,
       });
@@ -144,12 +123,13 @@ export class StoryReactService {
     }
   }
 
-  async findById(id: string): Promise<StoryReactDto> {
+  async findById(id: string): Promise<PostCommentReactDto> {
     try {
-      const react = await this.getStoryReactById(id);
-      return this.conversionService.toDto<StoryReactEntity, StoryReactDto>(
-        react,
-      );
+      const react = await this.getPostCommentReactById(id);
+      return this.conversionService.toDto<
+        PostCommentReactEntity,
+        PostCommentReactDto
+      >(react);
     } catch (error) {
       throw new SystemException(error);
     }
@@ -157,8 +137,8 @@ export class StoryReactService {
 
   /********************** Start checking relations of post ********************/
 
-  async getStoryReactById(id: string): Promise<StoryReactEntity> {
-    const storyReact = await this.storyReactRepository.findOne({
+  async getPostCommentReactById(id: string): Promise<PostCommentReactEntity> {
+    const storyReact = await this.postCommentReactRepository.findOne({
       where: {
         id,
         isActive: ActiveStatus.ACTIVE,
@@ -179,15 +159,15 @@ export class StoryReactService {
     return react;
   }
 
-  async getStoryById(id: string): Promise<StoryEntity> {
-    const story = await this.storyRepository.findOne({
+  async getPostCommentById(id: string): Promise<PostCommentEntity> {
+    const postComment = await this.postCommentRepository.findOne({
       where: {
         id,
         isActive: ActiveStatus.ACTIVE,
       },
     });
-    this.exceptionService.notFound(story, 'Story Not Found!!');
-    return story;
+    this.exceptionService.notFound(postComment, 'Post Comment Not Found!!');
+    return postComment;
   }
 
   async getUserById(id: string): Promise<UserEntity> {
