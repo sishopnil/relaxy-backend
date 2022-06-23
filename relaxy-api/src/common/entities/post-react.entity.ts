@@ -2,7 +2,6 @@ import { Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { CustomBaseEntity } from './custom-base.entity';
 import { PostEntity } from './post.entity';
 import { ReactEntity } from './react.entity';
-import { StoryEntity } from './story.entity';
 import { UserEntity } from './user.entity';
 
 @Entity({ name: 'PostReactEntity' })

@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, Index, ManyToMany, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany } from 'typeorm';
 import { RoleNameEnum } from '../enums/role-name.enum';
 import { CustomBaseEntity } from './custom-base.entity';
 import { PostCommentReactEntity } from './post-comment-react.entity';
@@ -17,7 +17,6 @@ export class UserEntity extends CustomBaseEntity {
   name: string;
 
   @Column({ type: 'varchar', name: 'email', length: 100, nullable: true })
-  @Index({ unique: true })
   email: string;
 
   @Column({
