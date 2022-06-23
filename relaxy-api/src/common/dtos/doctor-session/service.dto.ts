@@ -10,6 +10,7 @@ import {
 import { ActiveStatus } from 'src/common/enums/active.enum';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
+import { DoctorDto } from './doctor.dto';
 
 export class ServiceDto extends BaseDto {
   @ApiProperty({ default: 'Service' })
@@ -17,7 +18,7 @@ export class ServiceDto extends BaseDto {
   @IsString({ message: 'Must be a string' })
   @MaxLength(65, { message: 'Maximum 65 characters supported' })
   title: string;
-  
+
   @ApiProperty({ default: 'description' })
   @IsNotEmpty({ message: 'Must be non empty' })
   @IsString({ message: 'Must be a string' })
@@ -37,6 +38,9 @@ export class ServiceDto extends BaseDto {
     message: 'Can be either Active or Inactive',
   })
   status: ActiveStatus;
+
+  @Type(() => DoctorDto)
+  doctors: DoctorDto[];
 }
 
 export class ServiceSearchDto extends ApiQueryPaginationBaseDTO {

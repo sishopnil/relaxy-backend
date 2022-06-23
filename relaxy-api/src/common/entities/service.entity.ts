@@ -1,6 +1,7 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToMany } from 'typeorm';
 import { ActiveStatus } from '../enums/active.enum';
 import { CustomBaseEntity } from './custom-base.entity';
+import { DoctorEntity } from './doctor.entity';
 
 @Entity({ name: 'ServiceEntity' })
 export class ServiceEntity extends CustomBaseEntity {
@@ -20,4 +21,7 @@ export class ServiceEntity extends CustomBaseEntity {
     default: `${ActiveStatus.ACTIVE}`,
   })
   status: ActiveStatus;
+
+  @ManyToMany(() => DoctorEntity, (doctorEntity) => doctorEntity.services)
+  doctors: DoctorEntity[];
 }

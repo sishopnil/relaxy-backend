@@ -1,7 +1,8 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, ManyToMany, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, OneToOne } from 'typeorm';
 import { RoleNameEnum } from '../enums/role-name.enum';
 import { CustomBaseEntity } from './custom-base.entity';
+import { DoctorEntity } from './doctor.entity';
 import { PostCommentReactEntity } from './post-comment-react.entity';
 import { PostCommentEntity } from './post-comment.entity';
 import { PostReactEntity } from './post-react.entity';
@@ -75,4 +76,7 @@ export class UserEntity extends CustomBaseEntity {
     (postCommentReactEntity) => postCommentReactEntity.reactedBy,
   )
   postCommentReacts: PostCommentReactEntity[];
+
+  @OneToOne(() => DoctorEntity, (doctorEntity) => doctorEntity.user)
+  doctor: DoctorEntity;
 }

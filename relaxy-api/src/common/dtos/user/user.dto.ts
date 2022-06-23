@@ -9,6 +9,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { BaseDto } from '../core/base.dto';
+import { DoctorDto } from '../doctor-session/doctor.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
 import { PostCommentReactDto } from '../posts/post-comment-react.dto';
 import { PostCommentDto } from '../posts/post-comment.dto';
@@ -69,6 +70,9 @@ export class UserDto extends BaseDto {
 
   @Type(() => PostCommentReactDto)
   postCommentReacts: PostCommentReactDto[];
+
+  @Type(() => DoctorDto)
+  doctors: DoctorDto[];
 }
 
 export class UserSearchDto extends ApiQueryPaginationBaseDTO {
