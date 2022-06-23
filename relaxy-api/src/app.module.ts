@@ -8,6 +8,7 @@ import { FieldExceptionFilter } from './common/filters/field-exception.filter';
 import { SystemExceptionFilter } from './common/filters/system-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { AuthMiddleware } from './common/middleware/auth.middleware';
+import { DoctorSessionTypeModule } from './doctor-session-type/doctor-session-type.module';
 import { FeelingsModule } from './feelings/feelings.module';
 import { MoodModule } from './mood/mood.module';
 import { PostCommentReactModule } from './post-comment-react/post-comment-react.module';
@@ -59,10 +60,11 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     PostModule,
     StoryReactModule,
     StoryCommentModule,
-    ServiceModule,
     PostReactModule,
     PostCommentModule,
     PostCommentReactModule,
+    ServiceModule,
+    DoctorSessionTypeModule
   ],
   providers: [
     {
