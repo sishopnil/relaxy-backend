@@ -19,6 +19,7 @@ import { PostReactModule } from './post-react/post-react.module';
 import { PostReportModule } from './post-report/post-report.module';
 import { PostTypeModule } from './post-types/post-type.module';
 import { PostModule } from './post/post.module';
+import { QuestionnaireModule } from './questionnaire/questionnaire.module';
 import { ReactModule } from './react/react.module';
 import { ServiceModule } from './service/service.module';
 import { StoryCommentModule } from './story-comment/story-comment.module';
@@ -71,6 +72,7 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     DoctorModule,
     PostReportModule,
     BugReportModule,
+    QuestionnaireModule,
   ],
   providers: [
     {
