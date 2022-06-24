@@ -27,6 +27,7 @@ import { StoryCommentModule } from './story-comment/story-comment.module';
 import { StoryReactModule } from './story-react/story-react.module';
 import { StoryModule } from './story/story.module';
 import { TagModule } from './tag/tag.module';
+import { UserQuestionAnswerModule } from './user-question-answer/user-question-answer.module';
 import { UserModule } from './user/user.module';
 
 const ENV = process.env['NODE_ENV'];
@@ -75,6 +76,7 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     BugReportModule,
     QuestionnaireModule,
     QuestionnaireAnswerModule,
+    UserQuestionAnswerModule,
   ],
   providers: [
     {

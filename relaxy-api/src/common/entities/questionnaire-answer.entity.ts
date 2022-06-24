@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { CustomBaseEntity } from './custom-base.entity';
 import { QuestionnaireEntity } from './questionnaire.entity';
+import { UserQuestionAnswerEntity } from './user-question-answer.entity';
 
 @Entity({ name: 'QuestionnaireAnswerEntity' })
 export class QuestionnaireAnswerEntity extends CustomBaseEntity {
@@ -21,4 +22,10 @@ export class QuestionnaireAnswerEntity extends CustomBaseEntity {
   )
   @JoinColumn({ name: 'questionnaire_id' })
   questionnaire: QuestionnaireEntity;
+
+  @OneToMany(
+    () => UserQuestionAnswerEntity,
+    (userQuestionAnswerEntity) => userQuestionAnswerEntity.questionnaireAnswer,
+  )
+  userQuestionnaireAnswer: UserQuestionAnswerEntity[];
 }

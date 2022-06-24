@@ -11,6 +11,7 @@ import { ActiveStatus } from 'src/common/enums/active.enum';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
 import { QuestionnaireDto } from './questionnaire.dto';
+import { UserQuestionnaireAnsweDto } from './user-questionnaire-answer.dto';
 
 export class QuestionnaireAnswerDto extends BaseDto {
   @ApiProperty({ default: 'Shovon' })
@@ -25,6 +26,9 @@ export class QuestionnaireAnswerDto extends BaseDto {
 
   @Type(() => QuestionnaireDto)
   questionnaire: QuestionnaireDto;
+
+  @Type(() => UserQuestionnaireAnsweDto)
+  userQuestionnaireAnswer: UserQuestionnaireAnsweDto[];
 }
 
 export class QuestionnaireAnswerSearchDto extends ApiQueryPaginationBaseDTO {

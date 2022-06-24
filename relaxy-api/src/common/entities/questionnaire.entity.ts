@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { ActiveStatus } from '../enums/active.enum';
 import { CustomBaseEntity } from './custom-base.entity';
 import { QuestionnaireAnswerEntity } from './questionnaire-answer.entity';
+import { UserQuestionAnswerEntity } from './user-question-answer.entity';
 
 @Entity({ name: 'QuestionnaireEntity' })
 export class QuestionnaireEntity extends CustomBaseEntity {
@@ -21,4 +22,10 @@ export class QuestionnaireEntity extends CustomBaseEntity {
     (questionnaireAnswerEntity) => questionnaireAnswerEntity.questionnaire,
   )
   questionnaireAnswer: QuestionnaireAnswerEntity[];
+
+  @OneToMany(
+    () => UserQuestionAnswerEntity,
+    (userQuestionAnswerEntity) => userQuestionAnswerEntity.questionnaire,
+  )
+  userQuestionnaireAnswer: UserQuestionAnswerEntity[];
 }

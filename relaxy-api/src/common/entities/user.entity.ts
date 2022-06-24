@@ -13,6 +13,7 @@ import { StoryCommentEntity } from './story-comment.entity';
 import { StoryReactEntity } from './story-react.entity';
 import { StoryEntity } from './story.entity';
 import { TagEntity } from './tags.entity';
+import { UserQuestionAnswerEntity } from './user-question-answer.entity';
 
 @Entity({ name: 'UserEntity' })
 export class UserEntity extends CustomBaseEntity {
@@ -90,4 +91,10 @@ export class UserEntity extends CustomBaseEntity {
 
   @OneToMany(() => BugReportEntity, (bugReportEntity) => bugReportEntity.user)
   bugReports: BugReportEntity[];
+
+  @OneToMany(
+    () => UserQuestionAnswerEntity,
+    (userQuestionAnswerEntity) => userQuestionAnswerEntity.user,
+  )
+  userQuestionnaireAnswer: UserQuestionAnswerEntity[];
 }

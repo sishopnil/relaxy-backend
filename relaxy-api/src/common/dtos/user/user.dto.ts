@@ -16,6 +16,7 @@ import { PostCommentDto } from '../posts/post-comment.dto';
 import { PostReactDto } from '../posts/post-react.dto';
 import { PostDto } from '../posts/post.dto';
 import { TagDto } from '../posts/tags.dto';
+import { UserQuestionnaireAnsweDto } from '../questionnaire/user-questionnaire-answer.dto';
 import { BugReportDto } from '../reports/bug-report.dto';
 import { PostReportDto } from '../reports/post-report.dto';
 import { StoryCommentDto } from '../story/story-comment.dto';
@@ -81,6 +82,9 @@ export class UserDto extends BaseDto {
 
   @Type(() => BugReportDto)
   bugReports: BugReportDto[];
+
+  @Type(() => UserQuestionnaireAnsweDto)
+  userQuestionnaireAnswer: UserQuestionnaireAnsweDto[];
 }
 
 export class UserSearchDto extends ApiQueryPaginationBaseDTO {
