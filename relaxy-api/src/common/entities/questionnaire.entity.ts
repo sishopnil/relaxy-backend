@@ -1,8 +1,7 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { ActiveStatus } from '../enums/active.enum';
 import { CustomBaseEntity } from './custom-base.entity';
-import { FeelingEntity } from './feeling.entity';
-import { StoryEntity } from './story.entity';
+import { QuestionnaireAnswerEntity } from './questionnaire-answer.entity';
 
 @Entity({ name: 'QuestionnaireEntity' })
 export class QuestionnaireEntity extends CustomBaseEntity {
@@ -16,4 +15,10 @@ export class QuestionnaireEntity extends CustomBaseEntity {
     default: `${ActiveStatus.ACTIVE}`,
   })
   status: ActiveStatus;
+
+  @OneToMany(
+    () => QuestionnaireAnswerEntity,
+    (questionnaireAnswerEntity) => questionnaireAnswerEntity.questionnaire,
+  )
+  questionnaireAnswer: QuestionnaireAnswerEntity[];
 }

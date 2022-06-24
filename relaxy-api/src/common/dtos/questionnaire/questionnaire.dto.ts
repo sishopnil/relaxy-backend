@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsEnum,
   IsNotEmpty,
@@ -9,6 +10,7 @@ import {
 import { ActiveStatus } from 'src/common/enums/active.enum';
 import { BaseDto } from '../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../pagination/api-query-pagination-base.dto';
+import { QuestionnaireAnswerDto } from './questionnaire-answer.dto';
 
 export class QuestionnaireDto extends BaseDto {
   @ApiProperty({ default: 'Shovon' })
@@ -24,6 +26,9 @@ export class QuestionnaireDto extends BaseDto {
     message: 'Can be either Active or Inactive',
   })
   status: ActiveStatus;
+
+  @Type(() => QuestionnaireAnswerDto)
+  questionnaireAnswer: QuestionnaireAnswerDto;
 }
 
 export class QuestionnaireSearchDto extends ApiQueryPaginationBaseDTO {
