@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { BugReportModule } from './bug-report/bug-report.module';
 import { ConfigureEnum } from './common/enums/configure.enum';
 import { FieldExceptionFilter } from './common/filters/field-exception.filter';
 import { SystemExceptionFilter } from './common/filters/system-exception.filter';
@@ -69,6 +70,7 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     DoctorSessionTypeModule,
     DoctorModule,
     PostReportModule,
+    BugReportModule,
   ],
   providers: [
     {
