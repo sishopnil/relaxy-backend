@@ -16,6 +16,7 @@ import { PostCommentDto } from '../posts/post-comment.dto';
 import { PostReactDto } from '../posts/post-react.dto';
 import { PostDto } from '../posts/post.dto';
 import { TagDto } from '../posts/tags.dto';
+import { PostReportDto } from '../reports/post-report.dto';
 import { StoryCommentDto } from '../story/story-comment.dto';
 import { StoryReactDto } from '../story/story-react.dto';
 import { StoryDto } from '../story/story.dto';
@@ -73,6 +74,9 @@ export class UserDto extends BaseDto {
 
   @Type(() => DoctorDto)
   doctors: DoctorDto[];
+
+  @Type(() => PostReportDto)
+  postReports: PostReportDto[];
 }
 
 export class UserSearchDto extends ApiQueryPaginationBaseDTO {

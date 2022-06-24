@@ -15,6 +15,7 @@ import { MoodModule } from './mood/mood.module';
 import { PostCommentReactModule } from './post-comment-react/post-comment-react.module';
 import { PostCommentModule } from './post-comment/post-comment.module';
 import { PostReactModule } from './post-react/post-react.module';
+import { PostReportModule } from './post-report/post-report.module';
 import { PostTypeModule } from './post-types/post-type.module';
 import { PostModule } from './post/post.module';
 import { ReactModule } from './react/react.module';
@@ -67,6 +68,7 @@ const envFilePath = [`env/${!ENV ? `.env` : `.env.${ENV}`}`];
     ServiceModule,
     DoctorSessionTypeModule,
     DoctorModule,
+    PostReportModule,
   ],
   providers: [
     {

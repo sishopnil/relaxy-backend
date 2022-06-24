@@ -6,6 +6,7 @@ import { DoctorEntity } from './doctor.entity';
 import { PostCommentReactEntity } from './post-comment-react.entity';
 import { PostCommentEntity } from './post-comment.entity';
 import { PostReactEntity } from './post-react.entity';
+import { PostReportEntity } from './post-report.entity';
 import { PostEntity } from './post.entity';
 import { StoryCommentEntity } from './story-comment.entity';
 import { StoryReactEntity } from './story-react.entity';
@@ -79,4 +80,10 @@ export class UserEntity extends CustomBaseEntity {
 
   @OneToOne(() => DoctorEntity, (doctorEntity) => doctorEntity.user)
   doctor: DoctorEntity;
+
+  @OneToMany(
+    () => PostReportEntity,
+    (postReportEntity) => postReportEntity.user,
+  )
+  postReports: PostReportEntity[];
 }

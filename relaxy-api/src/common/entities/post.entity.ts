@@ -10,6 +10,7 @@ import {
 import { CustomBaseEntity } from './custom-base.entity';
 import { PostCommentEntity } from './post-comment.entity';
 import { PostReactEntity } from './post-react.entity';
+import { PostReportEntity } from './post-report.entity';
 import { PostTypeEntity } from './post-type.entity';
 import { TagEntity } from './tags.entity';
 import { UserEntity } from './user.entity';
@@ -49,4 +50,10 @@ export class PostEntity extends CustomBaseEntity {
     (postCommentEntity) => postCommentEntity.post,
   )
   postComments: PostCommentEntity[];
+
+  @OneToMany(
+    () => PostReportEntity,
+    (postReportEntity) => postReportEntity.post,
+  )
+  postReports: PostReportEntity[];
 }
