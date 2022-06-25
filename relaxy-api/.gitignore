@@ -27,6 +27,8 @@ lerna-debug.log*
 *.sublime-workspace
 package-lock.json
 yarn.lock
+.env
+.env.development
 
 # IDE - VSCode
 .vscode/*
